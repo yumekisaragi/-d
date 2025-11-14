@@ -1,100 +1,79 @@
 module.exports.config = {
-    name: "toilet",
-    version: "2.0.0",
-    hasPermssion: 0,
-    credits: "Watasi Sahib",
-    description: "Toilet Image Generate 🚽",
-    commandCategory: "Image",
-    usages: "@mention",
-    cooldowns: 5,
-    dependencies: {
-        "fs-extra": "",
-        "axios": "",
-        "jimp": ""
-    }
+	name: "toilet",
+	version: "1.0.1",
+	hasPermssion: 0,
+	credits: "𝐂𝐘𝐁𝐄𝐑 ☢️_𖣘 -𝐁𝐎𝐓 ⚠️ 𝑻𝑬𝑨𝑴_ ☢️",
+	description: "Toilet 🚽",
+	commandCategory: "Image",
+	usages: "rank",
+	cooldowns: 5,
+	dependencies: {
+	  "fs-extra": "",
+	  "axios": "",
+	  "canvas" :"",
+	  "jimp": ""
+	}
 };
 
-module.exports.onLoad = async () => {
+module.exports.onLoad = async() => {
     const { resolve } = global.nodemodule["path"];
     const { existsSync, mkdirSync } = global.nodemodule["fs-extra"];
     const { downloadFile } = global.utils;
+    const dirMaterial = __dirname + `/cache/`;
+    const path = resolve(__dirname, 'cache', 'toilet.png');
+    if (!existsSync(dirMaterial + "")) mkdirSync(dirMaterial, { recursive: true });
+    if (!existsSync(path)) await downloadFile("https://i.imgur.com/BtSlsSS.jpg", path);
 
-    const dir = __dirname + `/cache/`;
-    const toiletPath = resolve(__dirname, "cache", "toilet.png");
-
-    if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
-    if (!existsSync(toiletPath))
-        await downloadFile("https://i.imgur.com/BtSlsSS.jpg", toiletPath);
-};
+}
 
 async function makeImage({ one, two }) {
     const fs = global.nodemodule["fs-extra"];
     const path = global.nodemodule["path"];
-    const axios = global.nodemodule["axios"];
+    const axios = global.nodemodule["axios"]; 
     const jimp = global.nodemodule["jimp"];
-    const root = path.resolve(__dirname, "cache");
+    const __root = path.resolve(__dirname, "cache");
 
-    let base = await jimp.read(root + "/toilet.png");
-    let out = root + `/toilet_${one}_${two}.png`;
-
-    let avt1 = root + `/avt_${one}.png`;
-    let avt2 = root + `/avt_${two}.png`;
-
-    // Avatar Download
-    let get1 = (await axios.get(`https://graph.facebook.com/${one}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`, { responseType: 'arraybuffer' })).data;
-    fs.writeFileSync(avt1, Buffer.from(get1, "utf-8"));
-
-    let get2 = (await axios.get(`https://graph.facebook.com/${two}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`, { responseType: 'arraybuffer' })).data;
-    fs.writeFileSync(avt2, Buffer.from(get2, "utf-8"));
-
-    let circle1 = await jimp.read(await circle(avt1));
-    let circle2 = await jimp.read(await circle(avt2));
-
-    base.resize(292, 345)
-        .composite(circle1.resize(75, 75), 100, 200)
-        .composite(circle2.resize(75, 75), 180, 200);
-
-    fs.writeFileSync(out, await base.getBufferAsync("image/png"));
-    fs.unlinkSync(avt1);
-    fs.unlinkSync(avt2);
-
-    return out;
+    let hon_img = await jimp.read(__root + "/toilet.png");
+    let pathImg = __root + `/toilet_${one}_${two}.png`;
+    let avatarOne = __root + `/avt_${one}.png`;
+    let avatarTwo = __root + `/avt_${two}.png`;
+    
+    let getAvatarOne = (await axios.get(`https://graph.facebook.com/${one}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`, { responseType: 'arraybuffer' })).data;
+    fs.writeFileSync(avatarOne, Buffer.from(getAvatarOne, 'utf-8'));
+    
+    let getAvatarTwo = (await axios.get(`https://graph.facebook.com/${two}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`, { responseType: 'arraybuffer' })).data;
+    fs.writeFileSync(avatarTwo, Buffer.from(getAvatarTwo, 'utf-8'));
+    
+    let circleOne = await jimp.read(await circle(avatarOne));
+    let circleTwo = await jimp.read(await circle(avatarTwo));
+    hon_img.resize(292, 345).composite(circleOne.resize(70, 70), 100, 200).composite(circleTwo.resize(70, 70), 100, 200);
+    
+    let raw = await hon_img.getBufferAsync("image/png");
+    
+    fs.writeFileSync(pathImg, raw);
+    fs.unlinkSync(avatarOne);
+    fs.unlinkSync(avatarTwo);
+    
+    return pathImg;
 }
-
-async function circle(img) {
+async function circle(image) {
     const jimp = require("jimp");
-    let image = await jimp.read(img);
+    image = await jimp.read(image);
     image.circle();
     return await image.getBufferAsync("image/png");
 }
 
-module.exports.handleEvent = function ({ event, api }) {
-    const msg = event.body?.toLowerCase() || "";
-
-    // Auto trigger without prefix
-    if (msg.includes("toilet")) {
-        if (Object.keys(event.mentions).length === 1) {
-            module.exports.run({ event, api, args: [] });
-        }
-    }
-};
-
-module.exports.run = async function ({ event, api }) {
+module.exports.run = async function ({ event, api, args, Currencies }) { 
     const fs = global.nodemodule["fs-extra"];
-    let mention = Object.keys(event.mentions);
-
-    if (!mention[0])
-        return api.sendMessage("Tag someone to flush 🚽🙂", event.threadID);
-
-    let one = event.senderID;
-    let two = mention[0];
-
-    return makeImage({ one, two })
-        .then(path =>
-            api.sendMessage(
-                { body: "🚽 Flush complete!", attachment: fs.createReadStream(path) },
-                event.threadID,
-                () => fs.unlinkSync(path)
-            )
-        );
-};
+    const hc = Math.floor(Math.random() * 101);
+    const rd = Math.floor(Math.random() * 100000) + 100000;
+    const { threadID, messageID, senderID } = event;
+    const mention = Object.keys(event.mentions);
+    var one = senderID, two = mention[0];
+  await Currencies.increaseMoney(event.senderID, parseInt(hc*rd));
+  
+  if (!two) return api.sendMessage("Please tag 1 person", threadID, messageID);
+  else {
+        return makeImage({ one, two }).then(path => api.sendMessage({ body: `you deserve this place`, attachment: fs.createReadStream(path)}, threadID, () => fs.unlinkSync(path), messageID));
+  }
+    }
