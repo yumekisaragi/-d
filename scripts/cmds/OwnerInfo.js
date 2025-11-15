@@ -1,68 +1,49 @@
-const moment = require("moment-timezone");
-const axios = require("axios");
-const fs = require("fs-extra");
-
 module.exports = {
   config: {
     name: "ownerinfo",
-    version: "6.0",
-    author: "Huraira",
-    countDown: 5,
+    aliases: ["owner", "ownerinfo"],
+    version: "1.1",
+    author: "Watashi Sajib 💫",
+    countDown: 3,
     role: 0,
-    description: "Show full details about the bot owner Watashi Sajib 💫",
+    shortDescription: "Show Owner's full info with social links",
+    longDescription: "Displays owner name, FB, Instagram, Age, Study, Relationship",
     category: "info",
+    guide: "{p}ownerinfo"
   },
 
-  onStart: async function ({ message }) {
+  onStart: async function ({ api, event }) {
     try {
-      // Basic info
-      const time = moment.tz("Asia/Dhaka").format("hh:mm A, dddd, DD MMMM YYYY");
-      const ownerName = "👑 𝗪𝗮𝘁𝗮𝘀𝗵𝗶 𝗦𝗮𝗷𝗶𝗯 👑";
-      const fbUID = "100078792977084";
-      const prefix = "+";
-      const botName = "🐥 𝑴𝒂𝒉𝒊𝒓𝒖 𝑪𝒉𝒂𝒏 🐥";
+      // Dynamic Owner Info
+      const owner = {
+        name: "𝐖𝐚𝐭𝐚𝐬𝐡𝐢 𝐒𝐚𝐣𝐢𝐛 ✦√",
+        fb: "https://www.facebook.com/share/16WZtvPKJY/",
+        insta: "https://www.instagram.com/itzsajib78?igsh=MTd6Zm1qc3BvdGM4dQ==",
+        study: "𝐁𝐚𝐧𝐠𝐥𝐚𝐝𝐞𝐬𝐡 𝐎𝐩𝐞𝐧 𝐔𝐧𝐢𝐯𝐞𝐫𝐬𝐢𝐭𝐲 𝐜𝐥𝐚𝐬𝐬 10 𝐅𝐢𝐫𝐬𝐭 𝐘𝐞𝐚𝐫f ",
+        age: "18+",
+        relationship: "𝐈𝐝𝐤"
+      };
 
-      // Banner image
-      const bannerUrl = "https://i.ibb.co/cY3VNpg/mahiru-banner.jpg"; // Changeable
-      const imagePath = __dirname + "/cache/ownerinfo.jpg";
+      const msg = `
+🌸┏━━━━━━━━━━━━━━━┓🌸
+💖 𝐎𝐰𝐧𝐞𝐫 𝐈𝐧𝐟𝐨 💖
+🌸┗━━━━━━━━━━━━━━━┛🌸
 
-      const response = await axios.get(bannerUrl, { responseType: "arraybuffer" });
-      fs.writeFileSync(imagePath, Buffer.from(response.data, "binary"));
+🦋 Name: ${owner.name}
+🔗 Facebook: ${owner.fb}
+📸 Instagram: ${owner.insta}
+🎓 Study: ${owner.study}
+🎂 Age: ${owner.age}
+💖 Relationship: ${owner.relationship}
 
-      const info = `
-🌸 ━━━ 『 ${botName} 』 ━━━ 🌸
-
-💫 𝗢𝗪𝗡𝗘𝗥 𝗜𝗡𝗙𝗢 💫
-👑 Name: ${ownerName}
-🪪 FB UID: ${fbUID}
-🌍 Country: Bangladesh 🇧🇩
-💻 Profession: Developer & Creator
-🕐 Local Time: ${time}
-
-🔗 𝗦𝗢𝗖𝗜𝗔𝗟 𝗟𝗜𝗡𝗞𝗦:
-📘 Facebook: https://facebook.com/profile.php?id=${fbUID}
-🪄 GitHub: https://github.com/WatashiSajib
-💌 Telegram: https://t.me/WatashiSajib
-
-🤖 𝗕𝗢𝗧 𝗜𝗡𝗙𝗢:
-🐤 Bot Name: ${botName}
-⚙️ Prefix: ${prefix}
-🧠 System: GoatBot v2 | Node.js
-🩵 Status: Online & Running Perfectly
-
-✨ “Even in silence, code speaks for the creator.” 💻
 ──────────────────────
-⚡ 𝗢𝗪𝗡𝗘𝗥: ${ownerName}
+🌼 From: ${owner.name}
 ──────────────────────
 `;
 
-      return message.reply({
-        body: info,
-        attachment: fs.createReadStream(imagePath),
-      });
+      return api.sendMessage(msg, event.threadID);
     } catch (err) {
-      console.error(err);
-      return message.reply("⚠️ | Couldn't load owner info, please try again later!");
+      return api.sendMessage("❌ Unexpected Error: " + err.message, event.threadID);
     }
-  },
+  }
 };
