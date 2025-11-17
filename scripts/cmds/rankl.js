@@ -1,12 +1,11 @@
-
-      /const axios = require("axios");
+const axios = require("axios");
 const fs = require("fs-extra");
 const Canvas = require("canvas");
 const path = require("path");
 
 module.exports = {
   config: {
-    name: "rank",
+    name: "rank""rk",
     version: "3.0",
     author: "Watashi Wa Sajib",
     countDown: 5,
