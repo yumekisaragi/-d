@@ -16,12 +16,12 @@ module.exports = {
     try {
       // Dynamic Owner Info
       const owner = {
-        name: "𝐖𝐚𝐭𝐚𝐬𝐡𝐢 𝐒𝐚𝐣𝐢𝐛 ✦√",
-        fb: "https://www.facebook.com/share/16WZtvPKJY/",
-        insta: "https://www.instagram.com/itzsajib78?igsh=MTd6Zm1qc3BvdGM4dQ==",
-        study: "𝐁𝐚𝐧𝐠𝐥𝐚𝐝𝐞𝐬𝐡 𝐎𝐩𝐞𝐧 𝐔𝐧𝐢𝐯𝐞𝐫𝐬𝐢𝐭𝐲 𝐜𝐥𝐚𝐬𝐬 10 𝐅𝐢𝐫𝐬𝐭 𝐘𝐞𝐚𝐫f ",
-        age: "18+",
-        relationship: "𝐈𝐝𝐤"
+        name: "𝐀𝐫𝐢𝐲𝐚𝐧 𝐀𝐡𝐚𝐦𝐞𝐝",
+        fb: "https://www.facebook.com/share/16N24wYssU/",
+        insta: "https://www.instagram.com/velvet.with_grace?igsh=YWRqbGptM21lYmpz",
+        study: "𝐔𝐠𝐚𝐧𝐝𝐚 𝐔𝐧𝐢𝐯𝐞𝐫𝐬𝐢𝐭𝐲 𝐁𝐢𝐨𝐢𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐜𝐬 𝟑𝐫𝐝 𝐘𝐞𝐚𝐫",
+        age: "99+",
+        relationship: 
       };
 
       const msg = `
