@@ -16,9 +16,9 @@ module.exports = {
   onStart: async function ({ message, api, event }) {
     try {
       const time = moment.tz("Asia/Dhaka").format("hh:mm A, dddd, DD MMMM YYYY");
-      const ownerName = "👑 𝗪𝗮𝘁𝗮𝘀𝗵𝗶 𝗦𝗮𝗷𝗶𝗯 👑";
-      const fbUID = "100078792977084";
-      const botName = "🐥 𝑴𝒂𝒉𝒊𝒓𝒖 𝑪𝒉𝒂𝒏 🐥";
+      const ownerName = "𝐀𝐫𝐢𝐲𝐚𝐧 𝐀𝐡𝐚𝐦𝐞𝐝";
+      const fbUID = "100092562682881";
+      const botName = "✨ 𝐙𝐚𝐫𝐚 💫";
       const prefix = "+";
 
       // Optional banner image
@@ -43,9 +43,9 @@ module.exports = {
         `🕐 Local Time: ${time}`,
         ``,
         `🔗 SOCIAL LINKS:`,
-        `📘 Facebook: https://facebook.com/profile.php?id=${fbUID}`,
-        `🪄 GitHub: https://github.com/WatashiSajib`,
-        `💌 Telegram: https://t.me/WatashiSajib`,
+        `📘 Facebook: https://www.facebook.com/share/16N24wYssU/${fbUID}`,
+        `🪄 GitHub:`,
+        `💌 Telegram:`,
         ``,
         `🤖 BOT INFO:`,
         `🐤 Bot Name: ${botName}`,
