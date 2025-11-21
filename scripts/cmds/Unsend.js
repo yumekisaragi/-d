@@ -9,7 +9,7 @@ module.exports = {
     category: "fun",
   },
 
-  triggers: ["+u", "+uns", "😡"], // Add more triggers
+  triggers: ["+u", "+uns", "😡","!u"], // Add more triggers
 
   onStart: async function ({ message, event, api, role }) {
     try {
